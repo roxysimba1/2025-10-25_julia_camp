@@ -1,0 +1,70 @@
+#simple simulation
+
+struct Organism
+    id::Int64 
+    offspring::Int64 #will later randomly generate number of offspring and store here
+    phenotype::Int64 #to start -> phenotype is either 1 or 0
+end
+
+#start with 100 individuals
+#id would be 1:100 accordingly
+#phenotype randomly generated for first gen, then offspring is same phenotype as parent 
+#offspring randomly generated every generation
+# will need to limit population in some way to keep it from exponenetially increasing 
+# need somewhere to store organisms--> population
+
+#populate first generation
+popsize = 100 
+function first_gen(popsize)
+    population::Vector{Organism} = []
+    for i in 1:popsize
+        id = i
+        offspring = rand(1:3) #each organism can have between 1 and 3 offspring
+        phenotype = rand(0:1) #randomly assign phenotype 0 or 1
+        push!(population, Organism(id, offspring, phenotype))
+    en
+    return population
+end
+
+population = first_gen(popsize)
+println(population)
+
+#populate next generation
+function next_gen(population)
+    new_population::Vector{Organism} = []
+    newid = 0
+    for org in population #for each organism
+        for i in 1:org.offspring #for each offspring of each organism
+            offspring = rand(1:3) #each offspring has 1 to 3 offspring
+            phenotype = org.phenotype #offspring has same phenotype as parent
+            newid += 1 
+            push!(new_population, Organism(newid, offspring, phenotype)) 
+        end
+    end
+    return new_population
+end
+
+new_population = next_gen(population)
+println(new_population)
+
+# simulate generations
+# need to learn about incorporating a seed number for reproducability
+generations = 20
+function basic_sim(generations, popsize)
+    population = first_gen(popsize)
+    println("Generation 1: Population size = $(length(population))")
+    generation = 1
+    for gen in 1:generations-1
+        generation +=1
+        population = next_gen(population) #population for next generation = new_population
+        println("Generation $(generation): Population size = $(length(population))")
+    end
+end
+
+evolution = basic_sim(generations, popsize)
+println(evolution)
+
+
+# need to cut population growth
+# for basic sim maybe randomly select 100 individuals to survive from each generation? 
+# or give each phenotype a survival rate? 
