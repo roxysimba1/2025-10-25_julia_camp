@@ -22,7 +22,7 @@ function first_gen(popsize)
         offspring = rand(1:3) #each organism can have between 1 and 3 offspring
         phenotype = rand(0:1) #randomly assign phenotype 0 or 1
         push!(population, Organism(id, offspring, phenotype))
-    en
+    end
     return population
 end
 
